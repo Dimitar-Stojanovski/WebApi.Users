@@ -5,7 +5,7 @@ using WebApi.Users.Repositories.Generics;
 
 namespace WebApi.Users.Repositories.UserRepo
 {
-    public interface IUserRepository:IGenericRepository<User>
+    public interface IUserRepository:IGenericRepository<UserModel>
     {
         Task<UserDto> CreateUser(CreateUserRequest createUserRequest);
     }

@@ -6,7 +6,7 @@ using WebApi.Users.Repositories.Generics;
 
 namespace WebApi.Users.Repositories.UserRepo
 {
-    public class UserRepository:GenericRepository<User>, IUserRepository
+    public class UserRepository:GenericRepository<UserModel>, IUserRepository
     {
         private readonly UserDbContext _context;
         private readonly IMapper mapper;
@@ -19,7 +19,7 @@ namespace WebApi.Users.Repositories.UserRepo
 
         public async Task<UserDto> CreateUser(CreateUserRequest createUserRequest)
         {
-            var model = mapper.Map<User>(createUserRequest);
+            var model = mapper.Map<UserModel>(createUserRequest);
             await AddAsync(model);
             return mapper.Map<UserDto>(model);
         }

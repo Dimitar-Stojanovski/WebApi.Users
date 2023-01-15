@@ -3,7 +3,7 @@ using WebApi.Users.Data.BaseData;
 
 namespace WebApi.Users.Data.Models
 {
-    public class User:EntityBase
+    public class UserModel:EntityBase
     {
         [Column("user_name")]
         public string UserName { get; set; }

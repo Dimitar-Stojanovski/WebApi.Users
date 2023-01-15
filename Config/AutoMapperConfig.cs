@@ -10,8 +10,8 @@ namespace WebApi.Users.Config
         public AutoMapperConfig()
         {
            CreateMap<CreateUserRequest, UserDto>().ReverseMap();
-           CreateMap<User, UserDto>().ReverseMap();
-           CreateMap<User, CreateUserRequest>().ReverseMap();
+           CreateMap<UserModel, UserDto>().ReverseMap();
+           CreateMap<UserModel, CreateUserRequest>().ReverseMap();
 
         }
     }

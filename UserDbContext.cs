@@ -10,12 +10,12 @@ namespace WebApi.Users
 
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(
-                new User
+            modelBuilder.Entity<UserModel>().HasData(
+                new UserModel
                 {
                     id = 1,
                     CreatedAt = DateTime.Now,
@@ -27,7 +27,7 @@ namespace WebApi.Users
                     status = "user"
 
                 },
-                new User
+                new UserModel
                 {
                     id = 2,
                     CreatedAt = DateTime.Now.AddDays(-2),
