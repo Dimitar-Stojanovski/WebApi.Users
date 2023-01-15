@@ -13,7 +13,7 @@ namespace WebApi.Users.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository userRepository;
-        private readonly IMapper mapper;
+        
 
         public UserController(IUserRepository userRepository)
         {
