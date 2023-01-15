@@ -30,5 +30,14 @@ namespace WebApi.Users.Repositories.UserRepo
             var _records = mapper.Map<List<UserDto>>(_users);
             return _records;
         }
+
+        public async Task<UserDto> GetSingleUser(string username)
+        {
+            
+            var user = await GetAsync<UserModel>(x=>x.UserName==username);
+            return mapper.Map<UserDto>(user);
+           
+            
+        }
     }
 }
