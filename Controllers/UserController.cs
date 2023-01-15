@@ -37,5 +37,13 @@ namespace WebApi.Users.Controllers
 
             
         }
+
+        [HttpGet("GetAllUsers")]
+        [ProducesResponseType(typeof(UserDto),StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var _allUsers = await userRepository.GetAllUsers();
+            return Ok(_allUsers);   
+        }
     }
 }

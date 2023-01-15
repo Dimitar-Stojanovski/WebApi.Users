@@ -8,5 +8,6 @@ namespace WebApi.Users.Repositories.UserRepo
     public interface IUserRepository:IGenericRepository<UserModel>
     {
         Task<UserDto> CreateUser(CreateUserRequest createUserRequest);
+        Task<List<UserDto>> GetAllUsers();
     }
 }
