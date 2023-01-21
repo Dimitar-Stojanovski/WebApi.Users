@@ -22,6 +22,8 @@ namespace WebApi.Users.Repositories.Generics
             return entity;
         }
 
+        
+
         public async Task DeleteAsync(string username)
         {
             var entity = await GetAsync(username);

@@ -12,5 +12,6 @@ namespace WebApi.Users.Repositories.Generics
         Task<bool>EntityExist<T>(Expression<Func<T,bool>> expression) where T : EntityBase;
         Task<T> GetAsync<T>(Expression<Func<T, bool>> expression) where T:EntityBase;
         
+        
     }
 }

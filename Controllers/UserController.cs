@@ -39,6 +39,7 @@ namespace WebApi.Users.Controllers
 
         [HttpGet("GetAllUsers")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        
         public async Task<IActionResult> GetAllUsers()
         {
             var _allUsers = await userRepository.GetAllUsers();
@@ -46,15 +47,10 @@ namespace WebApi.Users.Controllers
         }
 
         [HttpGet("{username}")]
-        
-        
-        public async Task<ActionResult<UserDto>> GetSingleUserWithUserName([Required] string username)
+         public async Task<ActionResult<UserDto>> GetSingleUserWithUserName([Required] string username)
         {
             var user  = await userRepository.GetSingleUser(username);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            
             return Ok(user);
         }
     }

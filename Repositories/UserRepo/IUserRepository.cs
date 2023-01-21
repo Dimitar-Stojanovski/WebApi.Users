@@ -10,5 +10,6 @@ namespace WebApi.Users.Repositories.UserRepo
         Task<UserDto> CreateUser(CreateUserRequest createUserRequest);
         Task<List<UserDto>> GetAllUsers();
         Task<UserDto> GetSingleUser(string username);
+        Task DeleteUser(string userName);
     }
 }

@@ -6,6 +6,7 @@ using FluentValidation.AspNetCore;
 using WebApi.Users.Repositories.Generics;
 using WebApi.Users.Repositories.UserRepo;
 using WebApi.Users.Data.Requests;
+using WebApi.Users.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,7 +50,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

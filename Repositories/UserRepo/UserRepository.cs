@@ -2,6 +2,7 @@
 using WebApi.Users.Data.DTO_s;
 using WebApi.Users.Data.Models;
 using WebApi.Users.Data.Requests;
+using WebApi.Users.Middleware.Exceptions;
 using WebApi.Users.Repositories.Generics;
 
 namespace WebApi.Users.Repositories.UserRepo
@@ -24,6 +25,17 @@ namespace WebApi.Users.Repositories.UserRepo
             return mapper.Map<UserDto>(model);
         }
 
+        public async Task DeleteUser(string userName)
+        {
+            var user = await GetAsync<UserModel>(x=>x.UserName==userName);
+            if (user == null)
+            {
+                throw new NotFoundException($"Cannot find a user with the username:{userName}");
+            }
+
+            await DeleteAsync(userName);
+        }
+
         public async Task<List<UserDto>> GetAllUsers()
         {
             var _users = await GetAllAsync();
@@ -35,6 +47,10 @@ namespace WebApi.Users.Repositories.UserRepo
         {
             
             var user = await GetAsync<UserModel>(x=>x.UserName==username);
+            if (user == null)
+            {
+                throw new NotFoundException($"User with the following username: {username} is not found");
+            }
             return mapper.Map<UserDto>(user);
            
             
