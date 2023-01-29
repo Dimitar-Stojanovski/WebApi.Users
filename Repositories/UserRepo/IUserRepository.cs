@@ -11,5 +11,6 @@ namespace WebApi.Users.Repositories.UserRepo
         Task<List<UserDto>> GetAllUsers();
         Task<UserDto> GetSingleUser(string username);
         Task DeleteUser(string userName);
+        Task<FirstAndLastNameDto> GetUserOnlyByFirstNameAndLastName(string _username);
     }
 }

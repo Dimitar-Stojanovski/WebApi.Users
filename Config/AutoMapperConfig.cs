@@ -12,6 +12,7 @@ namespace WebApi.Users.Config
            CreateMap<CreateUserRequest, UserDto>().ReverseMap();
            CreateMap<UserModel, UserDto>().ReverseMap();
            CreateMap<UserModel, CreateUserRequest>().ReverseMap();
+           CreateMap<UserModel, FirstAndLastNameDto>().ReverseMap();
 
         }
     }

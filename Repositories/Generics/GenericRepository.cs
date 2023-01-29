@@ -51,9 +51,22 @@ namespace WebApi.Users.Repositories.Generics
             return await context.Set<T>().FindAsync();
         }
 
-        public Task<T> GetAsync<T>(Expression<Func<T, bool>> expression) where T:EntityBase
+        public async Task<T> GetAsync<T>(Expression<Func<T, bool>> expression) where T:EntityBase
         {
-            return context.Set<T>().Where(expression).FirstOrDefaultAsync();
+            return await context.Set<T>().Where(expression).FirstOrDefaultAsync();
+        }
+
+        protected IQueryable<T> QueryByCondition<T>(Expression<Func<T, bool>> expression=null) where T : EntityBase
+        {
+            var query = context.Set<T>().AsQueryable();
+
+            if (expression!=null)
+            {
+                query = query.Where(expression);
+            }
+               
+            return query;
+
         }
     }
 }

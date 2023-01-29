@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using WebApi.Users.Data.DTO_s;
 using WebApi.Users.Data.Models;
 using WebApi.Users.Data.Requests;
@@ -54,6 +56,25 @@ namespace WebApi.Users.Repositories.UserRepo
             return mapper.Map<UserDto>(user);
            
             
+        }
+
+
+        public async Task<FirstAndLastNameDto> GetUserOnlyByFirstNameAndLastName(string _username)
+        {
+            
+            var user = await QueryByCondition<UserModel>(x=>x.UserName == _username)
+                .Select(x=>new FirstAndLastNameDto()
+                {
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                }).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new NotFoundException($"User with{_username}, is not found");
+            }
+
+            return mapper.Map<FirstAndLastNameDto>(user);
         }
     }
 }

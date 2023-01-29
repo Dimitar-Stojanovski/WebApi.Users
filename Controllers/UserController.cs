@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 using WebApi.Users.Data.DTO_s;
 using WebApi.Users.Data.Models;
@@ -53,5 +54,18 @@ namespace WebApi.Users.Controllers
             
             return Ok(user);
         }
+
+
+        [HttpGet("firstName/lastName{username}")]
+        public async Task<ActionResult<FirstAndLastNameDto>> GetFirstNameAndLastNameOfUser([Required] string username)
+        {
+            var user = await userRepository.GetUserOnlyByFirstNameAndLastName(username);
+
+            return Ok(user);
+        }
+
+
+        
+
     }
 }
