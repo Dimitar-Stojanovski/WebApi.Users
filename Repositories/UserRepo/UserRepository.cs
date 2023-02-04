@@ -27,15 +27,15 @@ namespace WebApi.Users.Repositories.UserRepo
             return mapper.Map<UserDto>(model);
         }
 
-        public async Task DeleteUser(string userName)
+        public async Task DeleteUser(string username)
         {
-            var user = await GetAsync<UserModel>(x=>x.UserName==userName);
+            var user = (await GetAsync<UserModel>(x => x.UserName == username));
             if (user == null)
             {
-                throw new NotFoundException($"Cannot find a user with the username:{userName}");
+                throw new NotFoundException($"Cannot find a user with the username:{username}");
             }
 
-            await DeleteAsync(userName);
+            await DeleteAsync(user);
         }
 
         public async Task<List<UserDto>> GetAllUsers()

@@ -24,11 +24,11 @@ namespace WebApi.Users.Repositories.Generics
 
         
 
-        public async Task DeleteAsync(string username)
+        public async Task DeleteAsync(T entity)
         {
-            var entity = await GetAsync(username);
+           
             context.Set<T>().Remove(entity);
-            await context.SaveChangesAsync();
+           await context.SaveChangesAsync();
         }
 
         public async Task<bool> EntityExist<T1>(Expression<Func<T1, bool>> expression) where T1 : EntityBase

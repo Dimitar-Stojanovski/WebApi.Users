@@ -7,6 +7,8 @@ using WebApi.Users.Repositories.Generics;
 using WebApi.Users.Repositories.UserRepo;
 using WebApi.Users.Data.Requests;
 using WebApi.Users.Middleware;
+using System.Text.Json.Serialization;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +21,23 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddFluentValidation(fv =>
+builder.Services.AddControllers().AddFluentValidation(options =>
 {
-    fv.RegisterValidatorsFromAssemblyContaining<Program>();
-});
+    options.ImplicitlyValidateChildProperties = true;
+    options.ImplicitlyValidateRootCollectionElements = true;
+    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+})
+ .AddJsonOptions(options =>
+ {
+     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+ });
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 
 //Services
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));

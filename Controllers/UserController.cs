@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using WebApi.Users.Data.DTO_s;
 using WebApi.Users.Data.Models;
 using WebApi.Users.Data.Requests;
+using WebApi.Users.Middleware.Exceptions;
 using WebApi.Users.Repositories.UserRepo;
 
 namespace WebApi.Users.Controllers
@@ -62,6 +63,18 @@ namespace WebApi.Users.Controllers
             var user = await userRepository.GetUserOnlyByFirstNameAndLastName(username);
 
             return Ok(user);
+        }
+
+
+        [HttpDelete("delete/{username}")]
+        public async Task<IActionResult> DeleteUserByUserName(string username)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+            await userRepository.DeleteUser(username);
+            return Ok();
         }
 
 
