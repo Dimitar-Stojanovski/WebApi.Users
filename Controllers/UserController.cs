@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using WebApi.Users.Data.DTO_s;
 using WebApi.Users.Data.Models;
 using WebApi.Users.Data.Requests;
+using WebApi.Users.Middleware;
 using WebApi.Users.Middleware.Exceptions;
 using WebApi.Users.Repositories.UserRepo;
 
@@ -27,11 +28,13 @@ namespace WebApi.Users.Controllers
 
         [HttpPost("CreateUser")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        
+        
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest createUserRequest)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return HandleError(ModelState);
             }
 
             var model = await userRepository.CreateUser(createUserRequest);
@@ -60,6 +63,10 @@ namespace WebApi.Users.Controllers
         [HttpGet("firstName/lastName{username}")]
         public async Task<ActionResult<FirstAndLastNameDto>> GetFirstNameAndLastNameOfUser([Required] string username)
         {
+            if (!ModelState.IsValid)
+            {
+                HandleError(ModelState);
+            }
             var user = await userRepository.GetUserOnlyByFirstNameAndLastName(username);
 
             return Ok(user);
@@ -67,17 +74,27 @@ namespace WebApi.Users.Controllers
 
 
         [HttpDelete("delete/{username}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+     
         public async Task<IActionResult> DeleteUserByUserName(string username)
         {
             if (!ModelState.IsValid)
             {
-                return NotFound();
+                return HandleError(ModelState);
             }
             await userRepository.DeleteUser(username);
             return Ok();
         }
 
 
+
+        private IActionResult HandleError(ModelStateDictionary modelstate)
+        {
+            string messages = string.Join("; ", ModelState.Values
+                .SelectMany(x => x.Errors)
+                .Select(x => x.ErrorMessage));
+            return BadRequest(messages);
+        }
         
 
     }

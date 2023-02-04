@@ -4,5 +4,7 @@
     {
         public string ErrorStatus { get; set; }
         public string ErrorDescription { get; set; }
+
+       
     }
 }
