@@ -76,5 +76,22 @@ namespace WebApi.Users.Repositories.UserRepo
 
             return mapper.Map<FirstAndLastNameDto>(user);
         }
+
+        public async Task<UserDto> UpdateUserInformation(UserDto user, Action<UserModel> actionRequest)
+        {
+            var model = await QueryByCondition<UserModel>(x=>x.UserName==user.UserName).FirstOrDefaultAsync();
+            if (model is null)
+            {
+                throw new NotFoundException($"{user.UserName} does not exist");
+            }
+
+            if (model.id != user.Id)
+                throw new BadRequestException("The ID's of the users must match");
+            
+            actionRequest(model);
+            await UpdateModel(model);
+
+            return mapper.Map<UserDto>(model);
+        }
     }
 }

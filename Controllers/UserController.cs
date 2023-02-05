@@ -86,14 +86,36 @@ namespace WebApi.Users.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateUser([FromBody] UserDto updateUserDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return HandleError(ModelState);
+            }
+
+            var _updatedUser = await userRepository.UpdateUserInformation(updateUserDto, x =>
+            {
+                x.FirstName = updateUserDto.FirstName;
+                x.LastName = updateUserDto.LastName;
+                x.status = updateUserDto.status;
+                x.Phone = updateUserDto.Phone;
+                x.UserName = updateUserDto.UserName;
+                x.Password = updateUserDto.Password;
+            });
+
+            return Ok(_updatedUser);
+        }
+
 
 
         private IActionResult HandleError(ModelStateDictionary modelstate)
         {
-            string messages = string.Join("; ", ModelState.Values
+            string messages = string.Join("; ", modelstate.Values
                 .SelectMany(x => x.Errors)
                 .Select(x => x.ErrorMessage));
-            return BadRequest(messages);
+            return BadRequest(new BadRequestException(messages));
         }
         
 

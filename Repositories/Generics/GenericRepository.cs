@@ -68,5 +68,11 @@ namespace WebApi.Users.Repositories.Generics
             return query;
 
         }
+
+        protected async Task UpdateModel<T>(T entity) where T : EntityBase
+        {
+            context.Set<T>().Update(entity);
+            await context.SaveChangesAsync();
+        }
     }
 }
